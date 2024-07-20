@@ -171,3 +171,5 @@ eval "$(zoxide init zsh)"
 alias cd="z"
 
 alias cleard='docker rm -f $(docker ps -aq) && docker network prune -f'
+
+export EDITOR=vim
