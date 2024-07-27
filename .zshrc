@@ -75,7 +75,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -104,6 +104,8 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+INSERT_MODE_INDICATOR="%F{yellow}+%f"
+bindkey -M viins 'jk' vi-cmd-mode
 
 export GO111MODULE=on
 export GOPATH=$(go env GOPATH)
@@ -173,3 +175,13 @@ alias cd="z"
 alias cleard='docker rm -f $(docker ps -aq) && docker network prune -f'
 
 export EDITOR=vim
+
+# shell vim mode
+# set -o vi
+
+# zsh binds
+bindkey '^[[Z'   complete-word       # tab          | complete
+bindkey '^I' autosuggest-accept  # shift + tab  | autosuggest
+
+
+
