@@ -171,8 +171,19 @@ eval $(thefuck --alias fk)
 eval "$(zoxide init zsh)"
 
 alias cd="z"
+alias vim="nvim"
 
-alias cleard='docker rm -f $(docker ps -aq) && docker network prune -f'
+alias cld='docker rm -f $(docker ps -aq) && docker network prune -f'
+
+alias py="python3"
+
+alias makec="make -C"
+alias cl="clear"
+
+alias g="git"
+alias gs="git status"
+alias gc="git commit"
+alias gl="git log --oneline"
 
 export EDITOR=vim
 
@@ -183,5 +194,5 @@ export EDITOR=vim
 bindkey '^[[Z'   complete-word       # tab          | complete
 bindkey '^I' autosuggest-accept  # shift + tab  | autosuggest
 
-
+setopt ignoreeof
 
