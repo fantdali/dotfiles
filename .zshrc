@@ -1,10 +1,11 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=$(go env GOPATH)/bin:$PATH
 
+unsetopt BEEP
+
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
-# Source secrets
 if [ -f ~/.zshrc_secrets ]; then
     source ~/.zshrc_secrets
 fi
@@ -104,8 +105,9 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-INSERT_MODE_INDICATOR="%F{yellow}+%f"
+INSERT_MODE_INDICATOR="%F{yellow}>>>%f"
 bindkey -M viins 'jk' vi-cmd-mode
+# ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
 
 export GO111MODULE=on
 export GOPATH=$(go env GOPATH)
@@ -176,6 +178,7 @@ alias vim="nvim"
 alias cld='docker rm -f $(docker ps -aq) && docker network prune -f'
 
 alias py="python3"
+alias k="kubectl"
 
 alias makec="make -C"
 alias cl="clear"
