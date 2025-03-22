@@ -17,10 +17,6 @@ keymap.set("n", "<Leader>w", ":w<CR>", opts) -- Save file
 
 keymap.set("n", "x", '"_x', opts) -- delete single character without copying into register
 keymap.set("n", "<Leader>j", "J", opts) -- join lines
-keymap.set("n", "<C-h>", "<C-w>h", opts) -- move to left window
-keymap.set("n", "<C-j>", "<C-w>j", opts) -- move to bottom window
-keymap.set("n", "<C-k>", "<C-w>k", opts) -- move to top window
-keymap.set("n", "<C-l>", "<C-w>l", opts) -- move to right window
 
 -- navigation
 keymap.set("n", "J", "5jzz", opts)
@@ -44,14 +40,3 @@ keymap.set("v", "p", '"_dP', opts)
 keymap.set("v", "<", "<gv", opts)
 keymap.set("v", ">", ">gv", opts)
 
--- window management
-keymap.set("n", "<leader>sv", "<C-w>v", opts) -- split window vertically
-keymap.set("n", "<leader>sh", "<C-w>s", opts) -- split window horizontally
-keymap.set("n", "<leader>se", "<C-w>=", opts) -- make split windows equal width & height
-keymap.set("n", "<leader>sx", "<cmd>close<CR>", opts) -- close current split window
-
-keymap.set("n", "<leader>to", "<cmd>tabnew<CR>", opts) -- open new tab
-keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", opts) -- close current tab
-keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", opts) --  go to next tab
-keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", opts) --  go to previous tab
-keymap.set("n", "<leader>td", "<cmd>tabnew %<CR>", opts) --  move current buffer to new tab

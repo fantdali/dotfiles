@@ -3,9 +3,10 @@ local keymap = vim.keymap
 local opts = { noremap = true, silent = true }
 
 -- find
-keymap.set("n", "<Leader>f", "<cmd>lua require('vscode').action('workbench.action.quickTextSearch')<CR>", opts) -- Assuming you want to bind to the search command
-keymap.set("n", "<Leader>ss", "<cmd>lua require('vscode').action('find-it-faster.findWithinFiles')<CR>", opts) -- Save project
-keymap.set("n", "<Leader>sf", "<cmd>lua require('vscode').action('find-it-faster.findFiles')<CR>", opts) -- Similar logic as above
+keymap.set("n", "<Leader>f", "<cmd>lua require('vscode').action('workbench.action.quickTextSearch')<CR>", opts)
+keymap.set("n", "<Leader>ss", "<cmd>lua require('vscode').action('find-it-faster.findWithinFiles')<CR>", opts)
+keymap.set("n", "<Leader>sf", "<cmd>lua require('vscode').action('find-it-faster.findFiles')<CR>", opts)
+
 
 -- harpoon
 keymap.set("n", "<Leader>h", "<cmd>lua require('vscode').action('vscode-harpoon.addEditor')<CR>", opts)
@@ -26,9 +27,9 @@ for i = 1, 9 do
 end
 
 -- Project management commands
-keymap.set("n", "<Leader>d", "<cmd>lua require('vscode').action('projectManager.saveProject')<CR>", opts)
-keymap.set("n", "<Leader>dl", "<cmd>lua require('vscode').action('projectManager.listProjects')<CR>", opts)
-keymap.set("n", "<Leader>de", "<cmd>lua require('vscode').action('projectManager.editProjects')<CR>", opts)
+keymap.set("n", "<Leader>m", "<cmd>lua require('vscode').action('projectManager.saveProject')<CR>", opts)
+keymap.set("n", "<Leader>ml", "<cmd>lua require('vscode').action('projectManager.listProjects')<CR>", opts)
+keymap.set("n", "<Leader>me", "<cmd>lua require('vscode').action('projectManager.editProjects')<CR>", opts)
 
 -- previous tab
 keymap.set(
@@ -37,3 +38,12 @@ keymap.set(
 	"<cmd>lua require('vscode').action('workbench.action.quickOpenPreviousRecentlyUsedEditorInGroup')<CR>",
 	opts
 )
+
+-- matches
+local vscode = require("vscode")
+
+keymap.set({ "n", "x", "i" }, "<C-m>", function()
+	vscode.with_insert(function()
+		vscode.action("editor.action.addSelectionToNextFindMatch")
+	end)
+end)

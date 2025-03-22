@@ -105,13 +105,17 @@ _fzf_comprun() {
 source ~/fzf-git.sh/fzf-git.sh
 
 bindkey '^[[Z' fzf-completion # shift+tab | command **<shift+tab>
-bindkey '^I' 	autosuggest-accept  # tab  | autosuggest
+#bindkey '^f' fzf-file-widget # ctrl+f | find files 
+bindkey '^I' autosuggest-accept  # tab  | autosuggest
 
 # fk
 eval $(thefuck --alias fk)
 
 # ---- Zoxide (better cd) ----
 eval "$(zoxide init zsh)"
+
+# c++
+export MallocNanoZone='0'
 
 alias cd="z"
 alias vim="nvim"
@@ -120,6 +124,7 @@ alias cld='docker rm -f $(docker ps -aq) && docker network prune -f'
 
 alias py="python3"
 alias k="kubectl"
+alias cc="clang++ --std=c++20 -fsanitize=address,undefined -Wall -Werror"
 
 alias makec="make -C"
 alias cl="clear"
@@ -136,3 +141,7 @@ export EDITOR=vim
 
 setopt ignoreeof
 
+export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
+
+# Created by `pipx` on 2025-02-16 20:15:29
+export PATH="$PATH:/Users/d.lifantev/.local/bin"

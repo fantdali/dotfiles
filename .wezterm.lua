@@ -11,6 +11,8 @@ config.color_scheme = "rose-pine"
 config.colors = {
 	-- background = "black",
 	background = "#0d101a",
+	selection_bg = "#4D7F7D", -- Background color for the selection
+	selection_fg = "#FFFFFF", -- Foreground (text) color for the selection
 }
 
 config.font = wezterm.font("MesloLGS Nerd Font Mono")
