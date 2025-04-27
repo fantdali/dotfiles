@@ -16,7 +16,7 @@ config.colors = {
 }
 
 config.font = wezterm.font("MesloLGS Nerd Font Mono")
-config.font_size = 16
+config.font_size = 17
 
 config.enable_tab_bar = false
 
@@ -26,15 +26,6 @@ config.window_padding = {
 	top = "0.2cell",
 	bottom = "0.2cell",
 }
-
---config.visual_bell = {
---	fade_in_duration_ms = 75,
---	fade_out_duration_ms = 75,
---	target = "CursorColor",
---}
---config.colors = {
---	visual_bell = "#202028",
---}
 
 config.window_decorations = "RESIZE"
 
@@ -65,12 +56,12 @@ config.keys = {
 	--	},
 	-- Alternative keys for page scrolling
 	{
-		key = "b",
+		key = "p",
 		mods = "CTRL",
 		action = wezterm.action.ScrollByPage(-1),
 	},
 	{
-		key = "f",
+		key = "n",
 		mods = "CTRL",
 		action = wezterm.action.ScrollByPage(1),
 	},

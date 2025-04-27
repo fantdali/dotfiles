@@ -1,5 +1,7 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=$(go env GOPATH)/bin:$PATH
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 unsetopt BEEP
 
@@ -10,40 +12,17 @@ if [ -f ~/.zshrc_secrets ]; then
     source ~/.zshrc_secrets
 fi
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="robbyrussell"
 
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting vi-mode)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting vi-mode kube-ps1)
 
 source $ZSH/oh-my-zsh.sh
 
-# zsh binds
-#bindkey '^[[Z'  complete-word   	# tab          | complete
-
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
+# PROMPT=$PROMPT'$(kube_ps1) '
+KUBE_PS1_CTX_COLOR=blue
+KUBE_PS1_PREFIX=''
+KUBE_PS1_SUFFIX=''
+KUBE_PS1_SYMBOL_ENABLE=false
 
 INSERT_MODE_INDICATOR="%F{yellow}>>>%f"
 bindkey -M viins 'jk' vi-cmd-mode
@@ -102,10 +81,10 @@ _fzf_comprun() {
 }
 
 # fzf-git
-source ~/fzf-git.sh/fzf-git.sh
+# source ~/fzf-git.sh/fzf-git.sh
 
 bindkey '^[[Z' fzf-completion # shift+tab | command **<shift+tab>
-#bindkey '^f' fzf-file-widget # ctrl+f | find files 
+# bindkey '^f' fzf-file-widget # ctrl+f | find files 
 bindkey '^I' autosuggest-accept  # tab  | autosuggest
 
 # fk
@@ -124,6 +103,8 @@ alias cld='docker rm -f $(docker ps -aq) && docker network prune -f'
 
 alias py="python3"
 alias k="kubectl"
+alias kx="kubectx"
+alias kns="kubens"
 alias cc="clang++ --std=c++20 -fsanitize=address,undefined -Wall -Werror"
 
 alias makec="make -C"
@@ -141,7 +122,4 @@ export EDITOR=vim
 
 setopt ignoreeof
 
-export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
-
-# Created by `pipx` on 2025-02-16 20:15:29
-export PATH="$PATH:/Users/d.lifantev/.local/bin"
+source <(kubectl completion zsh)

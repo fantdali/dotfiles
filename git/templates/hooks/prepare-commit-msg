@@ -4,7 +4,8 @@
 branch_name=$(git symbolic-ref --short HEAD)
 
 # Extract the substring before the second dash symbol
-substring=$(echo $branch_name | cut -d'-' -f1,2)
+substring=$(echo "$branch_name" | cut -d'/' -f2 | cut -d'_' -f1,2)
+echo "$substring"
 
 # Get the commit message file
 commit_msg_file=$1
@@ -15,5 +16,6 @@ first_line=$(head -n 1 $commit_msg_file)
 # Check if the commit message is empty
 if [ -z "$first_line" ]; then
 	# Add the substring to the start of the commit message in square brackets
-	sed -i.bak -e "1s/^/[$substring]: \n/" $commit_msg_file
+	sed -i.bak -e "1s|^|[$substring] \n|" "$commit_msg_file"
 fi
+
