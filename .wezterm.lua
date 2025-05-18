@@ -34,6 +34,8 @@ config.macos_window_background_blur = 0
 
 config.scrollback_lines = 5000
 
+config.window_close_confirmation = "NeverPrompt"
+
 local mux = wezterm.mux
 
 wezterm.on("gui-startup", function(cmd)

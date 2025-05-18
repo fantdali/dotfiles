@@ -18,10 +18,16 @@ plugins=(git zsh-autosuggestions zsh-syntax-highlighting vi-mode kube-ps1)
 
 source $ZSH/oh-my-zsh.sh
 
-# PROMPT=$PROMPT'$(kube_ps1) '
+PROMPT="%(?:%{$fg_bold[green]%}%1{>%} :%{$fg_bold[red]%}%1{>%} )%{$fg[cyan]%}%c%{$reset_color%}"
+PROMPT+=' $(git_prompt_info)'
+PROMPT+='$(kube_ps1)'
+PROMPT+='$(vi_mode_prompt_info)'
+PROMPT+=$'\n$ '
+RPROMPT=""
 KUBE_PS1_CTX_COLOR=blue
+KUBE_PS1_NS_COLOR=red
 KUBE_PS1_PREFIX=''
-KUBE_PS1_SUFFIX=''
+KUBE_PS1_SUFFIX=' '
 KUBE_PS1_SYMBOL_ENABLE=false
 
 INSERT_MODE_INDICATOR="%F{yellow}>>>%f"
