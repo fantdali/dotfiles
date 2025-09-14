@@ -90,7 +90,8 @@ _fzf_comprun() {
 # source ~/fzf-git.sh/fzf-git.sh
 
 bindkey '^[[Z' fzf-completion # shift+tab | command **<shift+tab>
-# bindkey '^f' fzf-file-widget # ctrl+f | find files 
+bindkey '^f' fzf-file-widget # ctrl+f | find files 
+bindkey '^t' fzf-cd-widget # ctrl+t | find dirs
 bindkey '^I' autosuggest-accept  # tab  | autosuggest
 
 # fk
@@ -98,6 +99,8 @@ eval $(thefuck --alias fk)
 
 # ---- Zoxide (better cd) ----
 eval "$(zoxide init zsh)"
+
+source <(kubectl completion zsh)
 
 # c++
 export MallocNanoZone='0'
@@ -128,4 +131,4 @@ export EDITOR=vim
 
 setopt ignoreeof
 
-source <(kubectl completion zsh)
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"

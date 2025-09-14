@@ -11,6 +11,7 @@ config.color_scheme = "rose-pine"
 config.colors = {
 	-- background = "black",
 	background = "#0d101a",
+	-- background = "#020308",
 	selection_bg = "#4D7F7D", -- Background color for the selection
 	selection_fg = "#FFFFFF", -- Foreground (text) color for the selection
 }
@@ -21,10 +22,10 @@ config.font_size = 17
 config.enable_tab_bar = false
 
 config.window_padding = {
-	left = "0.6cell",
-	right = "0.3cell",
-	top = "0.2cell",
-	bottom = "0.2cell",
+	left = "0.3cell",
+	right = "0cell",
+	top = "0cell",
+	bottom = "0cell",
 }
 
 config.window_decorations = "RESIZE"

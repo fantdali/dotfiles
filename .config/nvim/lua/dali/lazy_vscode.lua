@@ -11,7 +11,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({ { import = "dali.plugins.motions" }, { import = "dali.plugins.surround" } }, {
+require("lazy").setup({ { import = "dali.plugins.motions" }, { import = "dali.plugins.surround" }, { import = "dali.plugins.ruscmd" } }, {
 	checker = {
 		enabled = true,
 		notify = false,
