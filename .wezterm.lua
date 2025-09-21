@@ -9,25 +9,25 @@ local config = wezterm.config_builder()
 -- config.color_scheme = "Rosé Pine (base16)"
 config.color_scheme = "rose-pine"
 config.colors = {
-	-- background = "black",
-	background = "#0d101a",
-	-- background = "#020308",
+	-- background = "#17181c",
+	-- background = "#0d101a",
+	background = "#141417",
 	selection_bg = "#4D7F7D", -- Background color for the selection
 	selection_fg = "#FFFFFF", -- Foreground (text) color for the selection
 }
 
 config.font = wezterm.font("MesloLGS Nerd Font Mono")
-config.font_size = 17
+config.font_size = 18
 
-config.enable_tab_bar = false
 
 config.window_padding = {
-	left = "0.3cell",
+	left = "0cell",
 	right = "0cell",
 	top = "0cell",
 	bottom = "0cell",
 }
 
+config.enable_tab_bar = false
 config.window_decorations = "RESIZE"
 
 config.window_background_opacity = 1

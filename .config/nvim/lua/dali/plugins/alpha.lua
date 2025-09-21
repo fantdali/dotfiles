@@ -5,18 +5,6 @@ return {
 		local alpha = require("alpha")
 		local dashboard = require("alpha.themes.dashboard")
 
-		-- Set header
-		--     dashboard.section.header.val = {
-		--      "                                                     ",
-		--      "  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ",
-		--      "  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ",
-		--      "  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ",
-		--      "  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ",
-		--      "  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ",
-		--      "  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ",
-		--      "                                                     ",
-		--    }
-
 		-- Set menu
 		dashboard.section.buttons.val = {
 			dashboard.button("e", "  > New File", "<cmd>ene<CR>"),

@@ -5,18 +5,17 @@ local keymap = vim.keymap -- for conciseness
 
 local opts = { noremap = true, silent = true }
 
----------------------
--- General Keymaps -------------------
+--------------------- General Keymaps -------------------
 
 -- use jk to exit insert mode
 keymap.set("i", "jk", "<ESC>", opts)
 
 -- clear search highlights
 keymap.set("n", "<leader>/", ":nohl<CR>", opts) -- Clear search highlights
-keymap.set("n", "<Leader>w", ":w<CR>", opts) -- Save file
+keymap.set("n", "<Leader>w", ":w<CR>", opts)    -- Save file
 
-keymap.set("n", "x", '"_x', opts) -- delete single character without copying into register
-keymap.set("n", "<Leader>j", "J", opts) -- join lines
+keymap.set("n", "x", '"_x', opts)               -- delete single character without copying into register
+keymap.set("n", "<Leader>j", "J", opts)         -- join lines
 
 -- navigation
 keymap.set("n", "J", "5jzz", opts)
@@ -39,4 +38,3 @@ keymap.set("v", "p", '"_dP', opts)
 -- better indent handling
 keymap.set("v", "<", "<gv", opts)
 keymap.set("v", ">", ">gv", opts)
-

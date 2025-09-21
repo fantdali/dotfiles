@@ -11,12 +11,19 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({ { import = "dali.plugins.motions" }, { import = "dali.plugins.surround" }, { import = "dali.plugins.ruscmd" } }, {
-	checker = {
-		enabled = true,
-		notify = false,
+require("lazy").setup(
+	{
+		{ import = "dali.plugins.motions" },
+		{ import = "dali.plugins.surround" },
+		{ import = "dali.plugins.ruscmd" }
 	},
-	change_detection = {
-		notify = false,
-	},
-})
+	{
+		checker = {
+			enabled = true,
+			notify = false,
+		},
+		change_detection = {
+			notify = false,
+		},
+	}
+)
