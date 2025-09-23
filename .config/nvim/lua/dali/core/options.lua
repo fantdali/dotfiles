@@ -1,4 +1,4 @@
-vim.cmd("let g:netrw_liststyle = 3")
+vim.cmd("let g:netrw_liststyle = 1")
 
 local opt = vim.opt -- for conciseness
 
@@ -22,6 +22,7 @@ opt.smartcase = true -- if you include mixed case in your search, assumes you wa
 
 -- cursor line
 opt.cursorline = true -- highlight the current cursor line
+opt.guicursor = "n-v-i-c:block"
 
 -- appearance
 

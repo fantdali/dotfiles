@@ -39,6 +39,7 @@ return {
         "gotmpl",
         "gowork",
         "python",
+		"rust",
       },
       incremental_selection = {
         enable = true,

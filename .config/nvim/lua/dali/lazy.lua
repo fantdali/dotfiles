@@ -12,7 +12,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup(
-	{ { import = "dali.plugins" } },
+	{ { import = "dali.plugins" }, { import = "dali.plugins.lsp" } },
 	{
 		checker = {
 			enabled = true,

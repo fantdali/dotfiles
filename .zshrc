@@ -1,6 +1,4 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$(go env GOPATH)/bin:$PATH
-export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 unsetopt BEEP
@@ -131,4 +129,6 @@ export EDITOR=vim
 
 setopt ignoreeof
 
+export PATH=$(go env GOPATH)/bin:$PATH
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
