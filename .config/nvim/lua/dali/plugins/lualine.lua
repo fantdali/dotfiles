@@ -1,71 +1,70 @@
 return {
-	-- "nvim-lualine/lualine.nvim",
-	-- dependencies = { "nvim-tree/nvim-web-devicons" },
-	-- config = function()
-	-- 	local lualine = require("lualine")
-	-- 	local lazy_status = require("lazy.status") -- to configure lazy pending updates count
-	--
-	-- 	local colors = {
-	-- 		blue = "#65D1FF",
-	-- 		green = "#3EFFDC",
-	-- 		violet = "#FF61EF",
-	-- 		yellow = "#FFDA7B",
-	-- 		red = "#FF4A4A",
-	-- 		fg = "#c3ccdc",
-	-- 		bg = "#112638",
-	-- 		inactive_bg = "#2c3043",
-	-- 	}
-	--
-	-- 	--    local my_lualine_theme = {
-	-- 	--      normal = {
-	-- 	--        a = { bg = colors.blue, fg = colors.bg, gui = "bold" },
-	-- 	--        b = { bg = colors.bg, fg = colors.fg },
-	-- 	--        c = { bg = colors.bg, fg = colors.fg },
-	-- 	--      },
-	-- 	--      insert = {
-	-- 	--        a = { bg = colors.green, fg = colors.bg, gui = "bold" },
-	-- 	--        b = { bg = colors.bg, fg = colors.fg },
-	-- 	--        c = { bg = colors.bg, fg = colors.fg },
-	-- 	--      },
-	-- 	--      visual = {
-	-- 	--        a = { bg = colors.violet, fg = colors.bg, gui = "bold" },
-	-- 	--        b = { bg = colors.bg, fg = colors.fg },
-	-- 	--        c = { bg = colors.bg, fg = colors.fg },
-	-- 	--      },
-	-- 	--      command = {
-	-- 	--        a = { bg = colors.yellow, fg = colors.bg, gui = "bold" },
-	-- 	--        b = { bg = colors.bg, fg = colors.fg },
-	-- 	--        c = { bg = colors.bg, fg = colors.fg },
-	-- 	--      },
-	-- 	--      replace = {
-	-- 	--        a = { bg = colors.red, fg = colors.bg, gui = "bold" },
-	-- 	--        b = { bg = colors.bg, fg = colors.fg },
-	-- 	--        c = { bg = colors.bg, fg = colors.fg },
-	-- 	--      },
-	-- 	--      inactive = {
-	-- 	--        a = { bg = colors.inactive_bg, fg = colors.semilightgray, gui = "bold" },
-	-- 	--        b = { bg = colors.inactive_bg, fg = colors.semilightgray },
-	-- 	--        c = { bg = colors.inactive_bg, fg = colors.semilightgray },
-	-- 	--      },
-	-- 	--    }
-	--
-	-- 	-- configure lualine with modified theme
-	-- 	lualine.setup({
-	-- 		--			options = {
-	-- 		--				theme = my_lualine_theme,
-	-- 		--			},
-	-- 		sections = {
-	-- 			lualine_x = {
-	-- 				{
-	-- 					lazy_status.updates,
-	-- 					cond = lazy_status.has_updates,
-	-- 					-- color = { fg = "#ff9e64" },
-	-- 				},
-	-- 				{ "encoding" },
-	-- 				-- { "fileformat" },
-	-- 				{ "filetype" },
-	-- 			},
-	-- 		},
-	-- 	})
-	-- end,
+	"nvim-lualine/lualine.nvim",
+	config = function()
+		-- a “no color” theme for every mode
+		local plain = {
+			a = { gui = "NONE" },
+			b = {},
+			c = {},
+		}
+		local theme = {
+			normal = vim.deepcopy(plain),
+			insert = vim.deepcopy(plain),
+			visual = vim.deepcopy(plain),
+			replace = vim.deepcopy(plain),
+			command = vim.deepcopy(plain),
+			inactive = vim.deepcopy(plain),
+		}
+
+		require("lualine").setup({
+			options = {
+				theme = theme,
+				icons_enabled = false,
+				component_separators = "",
+				section_separators = "",
+				globalstatus = true, -- per-window; NvimTree will be empty
+				disabled_filetypes = {
+					-- statusline = { "NvimTree" }, -- hide in NvimTree
+				},
+			},
+			sections = {
+				lualine_a = {},
+				lualine_b = {},
+				lualine_c = {
+					{
+						"filename",
+						path = 0,
+						symbols = { modified = "[+]", readonly = "[-]", unnamed = "[No Name]" },
+					},
+					{
+						"diagnostics",
+						sources = { "nvim_diagnostic" },
+						sections = { "error", "warn" },
+						symbols = { error = "E:", warn = "W:" },
+						colored = false,
+						update_in_insert = false,
+					},
+				},
+				lualine_x = {},
+				lualine_y = { "progress" }, -- %P
+				lualine_z = { "location" }, -- %l:%c
+			},
+			inactive_sections = {
+				lualine_a = {},
+				lualine_b = {},
+				lualine_c = { "filename" },
+				lualine_x = { "location" },
+				lualine_y = {},
+				lualine_z = {},
+			},
+			extensions = {},
+		})
+
+		-- ensure Neovim's own statusline groups have no special bg (also fixes the
+		-- case where NvimTree is focused and the other window shows shaded NC line)
+		vim.cmd([[
+		  hi! link StatusLine   Normal
+		  hi! link StatusLineNC Normal
+		]])
+	end,
 }

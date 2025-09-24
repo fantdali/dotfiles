@@ -1,0 +1,12 @@
+[includeIf "gitdir:~/wrk/"]
+    path = ~/wrk/.gitconfig
+
+[includeIf "gitdir:~/prsnl/"]
+    path = ~/prsnl/.gitconfig
+
+[init]
+	templatedir = ~/git/templates
+
+[push]
+	autoSetupRemote = true
+

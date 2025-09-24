@@ -19,7 +19,6 @@ config.colors = {
 config.font = wezterm.font("MesloLGS Nerd Font Mono")
 config.font_size = 18
 
-
 config.window_padding = {
 	left = "0cell",
 	right = "0cell",
@@ -58,16 +57,16 @@ config.keys = {
 	--		action = wezterm.action({ ClearScrollback = "ScrollbackAndViewport" }),
 	--	},
 	-- Alternative keys for page scrolling
-	{
-		key = "p",
-		mods = "CTRL",
-		action = wezterm.action.ScrollByPage(-1),
-	},
-	{
-		key = "n",
-		mods = "CTRL",
-		action = wezterm.action.ScrollByPage(1),
-	},
+	-- {
+	-- 	key = "p",
+	-- 	mods = "CTRL",
+	-- 	action = wezterm.action.ScrollByPage(-1),
+	-- },
+	-- {
+	-- 	key = "n",
+	-- 	mods = "CTRL",
+	-- 	action = wezterm.action.ScrollByPage(1),
+	-- },
 }
 
 -- and finally, return the configuration to wezterm
