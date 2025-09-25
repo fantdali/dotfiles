@@ -42,8 +42,7 @@ return {
 		vim.cmd("hi! link BufferLineFill Normal")
 
 		-- Keymaps (Normal mode): cycle buffers (tabs)
-		local map = vim.keymap.set
-		map("n", "<M-k>", "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
-		map("n", "<M-j>", "<cmd>BufferLineCyclePrev<CR>", { desc = "Prev buffer" })
+		vim.keymap.set("n", "<M-K>", "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
+		vim.keymap.set("n", "<M-J>", "<cmd>BufferLineCyclePrev<CR>", { desc = "Prev buffer" })
 	end,
 }

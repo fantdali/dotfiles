@@ -67,7 +67,10 @@ config.keys = {
 	-- 	mods = "CTRL",
 	-- 	action = wezterm.action.ScrollByPage(1),
 	-- },
+	-- Cmd+Shift+J -> Alt+Shift+J  (Neovim sees <A-J>)
+	{ key = "J", mods = "CMD|SHIFT", action = wezterm.action.SendKey({ key = "J", mods = "ALT|SHIFT" }) },
+	-- Cmd+Shift+K -> Alt+Shift+K  (Neovim sees <A-K>)
+	{ key = "K", mods = "CMD|SHIFT", action = wezterm.action.SendKey({ key = "K", mods = "ALT|SHIFT" }) },
 }
-
 -- and finally, return the configuration to wezterm
 return config
