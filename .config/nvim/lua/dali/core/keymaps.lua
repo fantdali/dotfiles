@@ -69,7 +69,7 @@ keymap.set("v", "<", "<gv", opts)
 keymap.set("v", ">", ">gv", opts)
 
 -- update config
-keymap.set({ "n", "v" }, "<leader>r", ":update<CR> :source<CR>")
+keymap.set({ "n", "v" }, "<leader>rr", ":update<CR> :source<CR>")
 
 -- window management
 keymap.set("n", "<M-k>", "<cmd>resize +2<CR>") -- Increase height

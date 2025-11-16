@@ -133,3 +133,7 @@ setopt ignoreeof
 export PATH=$(go env GOPATH)/bin:$PATH
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
+
+export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
+

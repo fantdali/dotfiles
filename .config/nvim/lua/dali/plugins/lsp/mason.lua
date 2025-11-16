@@ -36,6 +36,7 @@ return {
 				"yamlls", -- YAML
 				"taplo", -- TOML
 				"jsonls", -- JSON
+				"jsonnet_ls",
 			},
 		})
 
@@ -54,6 +55,7 @@ return {
 				"prettierd", -- Markdown/JSON (optional, for markdown/json)
 				-- Linters
 				"pylint", -- Python
+				"jsonnetfmt",
 			},
 		})
 	end,

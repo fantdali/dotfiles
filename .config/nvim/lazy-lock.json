@@ -20,7 +20,6 @@
   "mason-lspconfig.nvim": { "branch": "main", "commit": "a1067cf84b4ff81b66d2bf4d01f4cbdb5de40bd0" },
   "mason-tool-installer.nvim": { "branch": "main", "commit": "517ef5994ef9d6b738322664d5fdd948f0fdeb46" },
   "mason.nvim": { "branch": "main", "commit": "7dc4facca9702f95353d5a1f87daf23d78e31c2a" },
-  "mini.icons": { "branch": "main", "commit": "f9a177c11daa7829389b7b6eaaec8b8a5c47052d" },
   "multicursors.nvim": { "branch": "main", "commit": "72225ea9e4443c3f4b9df91d0193e07c4ee8d382" },
   "neodev.nvim": { "branch": "main", "commit": "46aa467dca16cf3dfe27098042402066d2ae242d" },
   "nvim-autopairs": { "branch": "master", "commit": "23320e75953ac82e559c610bec5a90d9c6dfa743" },

@@ -27,7 +27,9 @@ return {
 				completeopt = "menu,menuone,noinsert",
 			},
 			snippet = {
-				expand = function(args) luasnip.lsp_expand(args.body) end,
+				expand = function(args)
+					luasnip.lsp_expand(args.body)
+				end,
 			},
 			mapping = cmp.mapping.preset.insert({
 				-- navigate items
@@ -40,6 +42,16 @@ return {
 
 				-- confirm with Tab; confirm first if none selected
 				["<Tab>"] = cmp.mapping(function(fallback)
+					if cmp.visible() then
+						cmp.confirm({ select = true })
+					elseif luasnip.expand_or_jumpable() then
+						luasnip.expand_or_jump()
+					else
+						fallback()
+					end
+				end, { "i", "s" }),
+
+				["<CR>"] = cmp.mapping(function(fallback)
 					if cmp.visible() then
 						cmp.confirm({ select = true })
 					elseif luasnip.expand_or_jumpable() then
@@ -87,14 +99,14 @@ return {
 		-- 	}),
 		-- })
 		--
-		cmp.setup.cmdline(':', {
+		cmp.setup.cmdline(":", {
 			mapping = cmp.mapping.preset.cmdline(),
 			sources = cmp.config.sources({
-				{ name = 'path' }
+				{ name = "path" },
 			}, {
-				{ name = 'cmdline' }
+				{ name = "cmdline" },
 			}),
-			matching = { disallow_symbol_nonprefix_matching = false }
+			matching = { disallow_symbol_nonprefix_matching = false },
 		})
 
 		-- CMDLINE: "/" and "?" (buffer words)

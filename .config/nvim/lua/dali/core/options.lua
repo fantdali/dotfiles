@@ -5,7 +5,7 @@ local opt = vim.opt -- for conciseness
 -- line numbers
 opt.relativenumber = true -- show relative line numbers
 opt.number = true -- shows absolute line number on cursor line (when relative number is on)
-opt.fillchars:append { eob = " " }
+opt.fillchars:append({ eob = " " })
 
 -- tabs & indentation
 opt.tabstop = 4 -- spaces for tabs (prettier default)
@@ -23,6 +23,12 @@ opt.smartcase = true -- if you include mixed case in your search, assumes you wa
 -- cursor line
 opt.cursorline = true -- highlight the current cursor line
 opt.guicursor = "n-v-i-c:block"
+
+vim.opt.mousescroll = "ver:1,hor:2" -- default is ver:3,hor:6
+
+-- Keep context around the cursor so jumps feel less abrupt
+vim.opt.scrolloff = 6
+vim.opt.sidescrolloff = 8
 
 -- appearance
 
@@ -45,4 +51,4 @@ opt.splitbelow = true -- split horizontal window to the bottom
 -- turn off swapfile
 opt.swapfile = false
 
-opt.shortmess:append('s')
+opt.shortmess:append("s")
