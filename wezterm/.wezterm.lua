@@ -30,7 +30,9 @@ config.enable_tab_bar = false
 config.window_decorations = "RESIZE"
 
 config.window_background_opacity = 1
-config.macos_window_background_blur = 0
+if wezterm.target_triple:find("darwin") then
+	config.macos_window_background_blur = 0
+end
 
 config.scrollback_lines = 5000
 
@@ -44,16 +46,18 @@ wezterm.on("gui-startup", function(cmd)
 end)
 
 local act = wezterm.action
+local is_mac = wezterm.target_triple:find("darwin") ~= nil
+local super = is_mac and "CMD" or "ALT"
 
 config.keys = {
 	{
 		key = "t",
-		mods = "CMD|SHIFT",
+		mods = super .. "|SHIFT",
 		action = act.ShowTabNavigator,
 	},
 	--	{
 	--		key = "k",
-	--		mods = "CMD",
+	--		mods = super,
 	--		action = wezterm.action({ ClearScrollback = "ScrollbackAndViewport" }),
 	--	},
 	-- Alternative keys for page scrolling
@@ -67,10 +71,10 @@ config.keys = {
 	-- 	mods = "CTRL",
 	-- 	action = wezterm.action.ScrollByPage(1),
 	-- },
-	-- Cmd+Shift+J -> Alt+Shift+J  (Neovim sees <A-J>)
-	{ key = "J", mods = "CMD|SHIFT", action = wezterm.action.SendKey({ key = "J", mods = "ALT|SHIFT" }) },
-	-- Cmd+Shift+K -> Alt+Shift+K  (Neovim sees <A-K>)
-	{ key = "K", mods = "CMD|SHIFT", action = wezterm.action.SendKey({ key = "K", mods = "ALT|SHIFT" }) },
+	-- Super+Shift+J -> Alt+Shift+J  (Neovim sees <A-J>)
+	{ key = "J", mods = super .. "|SHIFT", action = wezterm.action.SendKey({ key = "J", mods = "ALT|SHIFT" }) },
+	-- Super+Shift+K -> Alt+Shift+K  (Neovim sees <A-K>)
+	{ key = "K", mods = super .. "|SHIFT", action = wezterm.action.SendKey({ key = "K", mods = "ALT|SHIFT" }) },
 }
 -- and finally, return the configuration to wezterm
 return config

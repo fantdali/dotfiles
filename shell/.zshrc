@@ -1,5 +1,9 @@
 # If you come from bash you might have to change your $PATH.
-eval "$(/opt/homebrew/bin/brew shellenv)"
+if [ -f /opt/homebrew/bin/brew ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [ -f /home/linuxbrew/.linuxbrew/bin/brew ]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
 
 unsetopt BEEP
 
@@ -100,8 +104,10 @@ eval "$(zoxide init zsh)"
 
 source <(kubectl completion zsh)
 
-# c++
-export MallocNanoZone='0'
+# c++ (macOS-only: suppress malloc nano zone warnings)
+if [[ "$(uname)" == "Darwin" ]]; then
+  export MallocNanoZone='0'
+fi
 
 alias cd="z"
 alias vim="nvim"
@@ -130,11 +136,15 @@ export EDITOR=vim
 
 setopt ignoreeof
 
-export PATH=$(go env GOPATH)/bin:$PATH
-export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
-export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
-export PATH="/opt/homebrew/opt/grep/libexec/gnubin:/opt/homebrew/opt/findutils/libexec/gnubin:/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
+if command -v go &>/dev/null; then
+  export PATH=$(go env GOPATH)/bin:$PATH
+fi
 
-export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
+if [[ "$(uname)" == "Darwin" ]]; then
+  export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+  export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
+  export PATH="/opt/homebrew/opt/grep/libexec/gnubin:/opt/homebrew/opt/findutils/libexec/gnubin:/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
+  export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
+  export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
+fi
 
