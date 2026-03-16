@@ -109,7 +109,7 @@ if [[ "$(uname)" == "Darwin" ]]; then
   export MallocNanoZone='0'
 fi
 
-alias cd="z"
+alias cdi="z"
 alias vim="nvim"
 
 alias cld='docker rm -f $(docker ps -aq) && docker network prune -f'
