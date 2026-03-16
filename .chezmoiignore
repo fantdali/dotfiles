@@ -1,0 +1,11 @@
+README.md
+LICENSE
+.gitignore
+install.sh
+raycast.rayconfig
+vscode/
+
+{{- if ne .chezmoi.os "darwin" }}
+dot_config/skhd
+dot_config/yabai
+{{- end }}

@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+# chezmoi run_once script — macOS system preferences
+# Only runs on macOS. Re-runs if this file's content changes.
+
+set -euo pipefail
+
+{{ if ne .chezmoi.os "darwin" -}}
+exit 0
+{{ end -}}
+
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+info()    { printf "${BLUE}[INFO]${NC} %s\n" "$*"; }
+success() { printf "${GREEN}[OK]${NC} %s\n" "$*"; }
+warn()    { printf "${YELLOW}[WARN]${NC} %s\n" "$*"; }
+has()     { command -v "$1" &>/dev/null; }
+
+info "Configuring macOS defaults..."
+
+# Finder
+defaults write com.apple.finder AppleShowAllFiles -bool true
+defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+defaults write com.apple.finder ShowPathbar -bool true
+defaults write com.apple.finder ShowStatusBar -bool true
+
+# Keyboard
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+defaults write NSGlobalDomain KeyRepeat -int 2
+defaults write NSGlobalDomain InitialKeyRepeat -int 15
+
+# Text input
+defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
+
+# Dock
+defaults write com.apple.dock autohide -bool true
+defaults write com.apple.dock mineffect -string "scale"
+defaults write com.apple.dock show-recents -bool false
+defaults write com.apple.dock mru-spaces -bool false
+
+# Trackpad
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+
+success "macOS defaults configured"
+
+# yabai & skhd services
+if has yabai; then
+    yabai --start-service 2>/dev/null || brew services start yabai 2>/dev/null || true
+    success "yabai service started"
+fi
+
+if has skhd; then
+    skhd --start-service 2>/dev/null || brew services start skhd 2>/dev/null || true
+    success "skhd service started"
+fi
+
+warn "Some changes require a logout/restart to take effect"

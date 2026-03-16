@@ -1,0 +1,200 @@
+#!/usr/bin/env bash
+# chezmoi run_once script — installs packages on first apply
+# Re-runs automatically if this file's content changes.
+
+set -euo pipefail
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+BOLD='\033[1m'
+NC='\033[0m'
+
+info()    { printf "${BLUE}[INFO]${NC} %s\n" "$*"; }
+success() { printf "${GREEN}[OK]${NC} %s\n" "$*"; }
+warn()    { printf "${YELLOW}[WARN]${NC} %s\n" "$*"; }
+error()   { printf "${RED}[ERROR]${NC} %s\n" "$*" >&2; }
+has()     { command -v "$1" &>/dev/null; }
+
+OS="$(uname -s)"
+
+# ==============================================================================
+# Homebrew
+# ==============================================================================
+
+install_homebrew() {
+    if has brew; then
+        info "Homebrew already installed"
+        return
+    fi
+    info "Installing Homebrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+    if [[ "$OS" == "Darwin" ]]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    else
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    fi
+    success "Homebrew installed"
+}
+
+# ==============================================================================
+# Packages
+# ==============================================================================
+
+BREW_PACKAGES=(
+    neovim
+    tmux
+    fzf
+    fd
+    bat
+    eza
+    zoxide
+    thefuck
+    lazygit
+    ripgrep
+    git
+    curl
+    wget
+    jq
+    tree
+    go
+    node
+    python3
+)
+
+{{ if eq .chezmoi.os "darwin" -}}
+install_packages() {
+    info "Installing macOS packages via Homebrew..."
+    brew install "${BREW_PACKAGES[@]}" 2>/dev/null || true
+
+    info "Installing macOS-only packages..."
+    brew install yabai skhd kubectl kubectx gnu-sed grep findutils 2>/dev/null || true
+
+    info "Installing casks..."
+    brew install --cask wezterm font-meslo-lg-nerd-font raycast 2>/dev/null || true
+
+    success "macOS packages installed"
+}
+{{ else -}}
+install_packages() {
+    # Base packages from distro
+    if has apt-get; then
+        info "Installing base apt packages..."
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq git curl wget jq tree tmux python3 python3-pip \
+            build-essential unzip fontconfig zsh
+    elif has dnf; then
+        info "Installing base dnf packages..."
+        sudo dnf install -y git curl wget jq tree tmux python3 zsh
+    elif has pacman; then
+        info "Installing base pacman packages..."
+        sudo pacman -S --noconfirm --needed git curl wget jq tree tmux python3 zsh
+    fi
+
+    # Brew-only tools on Linux
+    info "Installing brew-only packages on Linux..."
+    brew install "${BREW_PACKAGES[@]}" 2>/dev/null || true
+    brew install kubectx 2>/dev/null || true
+
+    # kubectl
+    if ! has kubectl; then
+        info "Installing kubectl..."
+        curl -fsSL "https://dl.k8s.io/release/$(curl -fsSL https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" -o /tmp/kubectl
+        sudo install -o root -g root -m 0755 /tmp/kubectl /usr/local/bin/kubectl
+        rm -f /tmp/kubectl
+    fi
+
+    success "Linux packages installed"
+}
+{{ end -}}
+
+# ==============================================================================
+# Shell setup
+# ==============================================================================
+
+install_zsh_if_needed() {
+    if has zsh; then return; fi
+    info "Installing zsh..."
+    {{ if eq .chezmoi.os "darwin" -}}
+    brew install zsh
+    {{ else -}}
+    if has apt-get; then sudo apt-get install -y -qq zsh
+    elif has dnf; then sudo dnf install -y zsh
+    elif has pacman; then sudo pacman -S --noconfirm --needed zsh
+    fi
+    {{ end -}}
+}
+
+set_default_shell_zsh() {
+    if [[ "$SHELL" == *"zsh"* ]]; then return; fi
+    info "Setting default shell to zsh..."
+    local zsh_path
+    zsh_path="$(command -v zsh)"
+    if ! grep -qF "$zsh_path" /etc/shells 2>/dev/null; then
+        echo "$zsh_path" | sudo tee -a /etc/shells >/dev/null
+    fi
+    sudo chsh -s "$zsh_path" "$USER" 2>/dev/null || chsh -s "$zsh_path" || warn "Could not change shell. Run: chsh -s $zsh_path"
+}
+
+install_oh_my_zsh() {
+    if [[ -d "$HOME/.oh-my-zsh" ]]; then
+        info "oh-my-zsh already installed"
+    else
+        info "Installing oh-my-zsh..."
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    fi
+
+    local ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+
+    if [[ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]]; then
+        info "Installing zsh-autosuggestions..."
+        git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
+    fi
+
+    if [[ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]]; then
+        info "Installing zsh-syntax-highlighting..."
+        git clone https://github.com/zsh-users/zsh-syntax-highlighting "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
+    fi
+
+    if [[ ! -d "$ZSH_CUSTOM/plugins/kube-ps1" ]]; then
+        info "Installing kube-ps1..."
+        git clone https://github.com/jonmosco/kube-ps1 "$ZSH_CUSTOM/plugins/kube-ps1"
+    fi
+
+    success "oh-my-zsh ready"
+}
+
+# ==============================================================================
+# TPM (tmux plugin manager)
+# ==============================================================================
+
+install_tpm() {
+    if [[ -d "$HOME/.tmux/plugins/tpm" ]]; then
+        info "TPM already installed"
+        return
+    fi
+    info "Installing Tmux Plugin Manager..."
+    git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
+    success "TPM installed — run 'prefix + I' inside tmux to install plugins"
+}
+
+# ==============================================================================
+# Main
+# ==============================================================================
+
+info "========================================="
+info " Installing packages ({{ .chezmoi.os }})"
+info "========================================="
+
+install_homebrew
+install_packages
+install_zsh_if_needed
+set_default_shell_zsh
+install_oh_my_zsh
+install_tpm
+
+success "========================================="
+success " All packages installed!"
+success "========================================="

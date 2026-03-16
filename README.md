@@ -1,20 +1,20 @@
 # dotfiles
 
-Personal development environment configs for macOS and Linux.
+Personal development environment for macOS and Linux, managed with [chezmoi](https://chezmoi.io).
 
 ## What's included
 
-| Tool                | Stow package | Config                            |
-| ------------------- | ------------ | --------------------------------- |
-| **zsh** + oh-my-zsh | `shell`      | `.zshrc`                          |
-| **Neovim**          | `nvim`       | `.config/nvim/`                   |
-| **tmux** + TPM      | `tmux`       | `.tmux.conf`                      |
-| **WezTerm**         | `wezterm`    | `.wezterm.lua`                    |
-| **Git**             | `gitconfig`  | `.gitconfig`, `git/templates/`    |
-| **yabai** (macOS)   | `yabai`      | `.config/yabai/yabairc`           |
-| **skhd** (macOS)    | `skhd`       | `.config/skhd/skhdrc`             |
-| **VS Code**         | —            | `vscode/` (manual profile import) |
-| **Raycast**         | —            | `raycast.rayconfig` (manual)      |
+| Tool                | Config                         |
+| ------------------- | ------------------------------ |
+| **zsh** + oh-my-zsh | `.zshrc` (templated per OS)    |
+| **Neovim**          | `.config/nvim/`                |
+| **tmux** + TPM      | `.tmux.conf`                   |
+| **WezTerm**         | `.wezterm.lua`                 |
+| **Git**             | `.gitconfig`, `git/templates/` |
+| **yabai** (macOS)   | `.config/yabai/yabairc`        |
+| **skhd** (macOS)    | `.config/skhd/skhdrc`          |
+| **VS Code**         | `vscode/` (manual import)      |
+| **Raycast**         | `raycast.rayconfig` (manual)   |
 
 ### CLI tools installed
 
@@ -22,43 +22,52 @@ fzf, fd, bat, eza, zoxide, thefuck, lazygit, ripgrep, kubectl, kubectx/kubens, G
 
 ## Quick start
 
+**One-liner from a fresh machine** (installs chezmoi + applies everything):
+
 ```bash
-# 1. Clone the repo
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply <github-username>
+```
+
+**Or clone first:**
+
+```bash
 git clone https://github.com/<you>/dotfiles.git ~/dotfiles
 cd ~/dotfiles
-
-# 2. Run full setup (install tools + stow configs + configure OS)
 ./install.sh
 ```
 
-## Selective setup
+## Day-to-day usage
 
 ```bash
-./install.sh packages   # Install tools only
-./install.sh link       # Stow all config symlinks
-./install.sh unlink     # Remove all stow symlinks
-./install.sh macos      # macOS defaults + yabai/skhd services only
-```
-
-Or via Make:
-
-```bash
-make link               # Stow configs
-make unlink             # Remove stow symlinks
-make packages           # Install tools
-make macos              # macOS setup
-make install            # Full setup
+chezmoi edit ~/.zshrc        # Edit a managed file
+chezmoi diff                 # Preview changes before applying
+chezmoi apply                # Apply changes to $HOME
+chezmoi update               # Pull latest from repo + apply
+chezmoi add ~/.config/foo    # Add a new config to management
+chezmoi cd                   # cd into the source directory
 ```
 
 ## How it works
 
-Each top-level directory (e.g. `shell/`, `nvim/`, `tmux/`) is a **stow package** — its contents mirror the `$HOME` directory structure.  
-Running `stow shell` creates `~/.zshrc` → `dotfiles/shell/.zshrc`, etc.
+This repo is a [chezmoi source directory](https://chezmoi.io/reference/concepts/). On `chezmoi apply`:
 
-1. **Installs packages** — Homebrew (macOS/Linux), all CLI tools, language runtimes, fonts, stow
-2. **Stows configs** — `stow --restow <package>` for each package, creating symlinks into `$HOME`
-3. **Sets up the shell** — zsh as default, oh-my-zsh with plugins (autosuggestions, syntax-highlighting, vi-mode, kube-ps1)
-4. **macOS setup** (macOS only) — configures system defaults (key repeat, Finder settings, Dock), starts yabai/skhd services
+1. **`run_once_install-packages.sh.tmpl`** — installs Homebrew, all CLI tools, zsh + oh-my-zsh + plugins, TPM, fonts (runs once per machine, re-runs if script content changes)
+2. **Configs are applied** — chezmoi copies templated/exact files into `$HOME` (`dot_zshrc.tmpl` → `~/.zshrc`, `dot_config/nvim/` → `~/.config/nvim/`, etc.)
+3. **`run_once_after_configure-macos.sh.tmpl`** — (macOS only) sets system defaults, starts yabai/skhd services
+
+### Templating
+
+`.zshrc` is templated (`dot_zshrc.tmpl`) — it conditionally sets the Homebrew path and macOS-specific PATH/flags based on the OS:
+
+```
+{{- if eq .chezmoi.os "darwin" }}
+eval "$(/opt/homebrew/bin/brew shellenv)"
+{{- else }}
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+{{- end }}
+```
+
+yabai/skhd configs are automatically skipped on Linux via `.chezmoiignore`.
 
 ## Post-install steps
 
@@ -71,39 +80,36 @@ Running `stow shell` creates `~/.zshrc` → `dotfiles/shell/.zshrc`, etc.
 ## Structure
 
 ```
-dotfiles/
-├── install.sh              # Main entrypoint
-├── Makefile                # Convenience targets
-├── scripts/
-│   ├── utils.sh            # Shared helpers (OS detection, colors)
-│   ├── packages.sh         # Package installation (brew/apt)
-│   └── macos.sh            # macOS defaults & services
+dotfiles/                              (chezmoi source directory)
+├── .chezmoi.yaml.tmpl                 # chezmoi config (prompts for email, etc.)
+├── .chezmoiignore                     # skip yabai/skhd on Linux
+├── install.sh                         # bootstrap: installs chezmoi + applies
 │
-│  # --- stow packages (each mirrors $HOME) ---
-├── shell/
-│   └── .zshrc
-├── tmux/
-│   └── .tmux.conf
-├── wezterm/
-│   └── .wezterm.lua
-├── nvim/
-│   └── .config/nvim/       # Neovim (Lazy + lua/dali/)
-├── gitconfig/
-│   ├── .gitconfig           # Git config with conditional includes
-│   └── git/templates/hooks/ # Git hooks (prepare-commit-msg)
-├── yabai/
-│   └── .config/yabai/      # yabai WM config (macOS)
-├── skhd/
-│   └── .config/skhd/       # skhd hotkeys (macOS)
+├── run_once_install-packages.sh.tmpl  # package installation (brew/apt/zsh/tpm)
+├── run_once_after_configure-macos.sh.tmpl  # macOS defaults + services
 │
-├── vscode/                 # VS Code profile export (manual)
-└── raycast.rayconfig       # Raycast config (manual)
+├── dot_zshrc.tmpl                     # .zshrc (templated for OS)
+├── dot_tmux.conf                      # .tmux.conf
+├── dot_wezterm.lua                    # .wezterm.lua
+├── dot_gitconfig                      # .gitconfig
+├── dot_config/
+│   ├── nvim/                          # Neovim (Lazy + lua/dali/)
+│   ├── skhd/skhdrc                    # skhd hotkeys (macOS)
+│   └── yabai/yabairc                  # yabai WM config (macOS)
+├── exact_git/exact_templates/hooks/   # Git hooks (prepare-commit-msg)
+│
+├── vscode/                            # VS Code profile export (manual)
+└── raycast.rayconfig                  # Raycast config (manual)
 ```
 
 ## Adding new configs
 
-1. Create a new stow package directory: `mkdir -p <name>/<path matching $HOME>`
-2. Put the config file inside it (e.g. `foo/.config/foo/config.toml`)
-3. Add the package name to `STOW_PACKAGES` in `install.sh` and `Makefile`
-4. If the tool needs installing, add it to the lists in `scripts/packages.sh`
-5. Run `make link` to activate
+```bash
+# Add an existing file to chezmoi management
+chezmoi add ~/.config/foo/config.toml
+
+# Or for a templated file
+chezmoi add --template ~/.config/bar/settings.conf
+```
+
+The file appears in the source directory with chezmoi naming, and will be managed on future `chezmoi apply` runs.

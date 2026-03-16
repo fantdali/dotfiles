@@ -1,5 +1,9 @@
 # If you come from bash you might have to change your $PATH.
+{{- if eq .chezmoi.os "darwin" }}
 eval "$(/opt/homebrew/bin/brew shellenv)"
+{{- else }}
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+{{- end }}
 
 unsetopt BEEP
 
@@ -131,9 +135,12 @@ export EDITOR=vim
 setopt ignoreeof
 
 export PATH=$(go env GOPATH)/bin:$PATH
+{{- if eq .chezmoi.os "darwin" }}
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
+export PATH="/opt/homebrew/opt/grep/libexec/gnubin:/opt/homebrew/opt/findutils/libexec/gnubin:/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
 
 export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
+{{- end }}
 
