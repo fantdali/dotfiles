@@ -95,7 +95,7 @@ setup_macos() {
     info "========================================="
 
     configure_macos_defaults
-    start_wm_services
+    # start_wm_services
 
     success "========================================="
     success " macOS setup complete!"
