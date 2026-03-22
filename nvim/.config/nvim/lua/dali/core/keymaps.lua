@@ -38,10 +38,10 @@ keymap.set("i", "jk", "<ESC>", opts)
 
 -- clear search highlights
 keymap.set("n", "<leader>/", ":nohl<CR>", opts) -- Clear search highlights
-keymap.set("n", "<Leader>w", ":w<CR>", opts) -- Save file
+keymap.set("n", "<leader>w", ":w<CR>", opts) -- Save file
 
 keymap.set("n", "x", '"_x', opts) -- delete single character without copying into register
-keymap.set("n", "<Leader>j", "J", opts) -- join lines
+keymap.set("n", "<leader>j", "J", opts) -- join lines
 
 -- navigation
 keymap.set("n", "J", "5jzz", opts)

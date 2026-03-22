@@ -25,17 +25,17 @@ return {
 		})
 
 		mason_lspconfig.setup({
-			-- list of servers for mason to install (only your requested languages)
+			automatic_enable = false, -- we use vim.lsp.enable() in lspconfig.lua
 			ensure_installed = {
-				"gopls", -- Go
-				"rust_analyzer", -- Rust
-				"pyright", -- Python
-				"clangd", -- C/C++
-				"lua_ls", -- Lua
-				"marksman", -- Markdown
-				"yamlls", -- YAML
-				"taplo", -- TOML
-				"jsonls", -- JSON
+				"gopls",
+				"rust_analyzer",
+				"pyright",
+				"clangd",
+				"lua_ls",
+				"marksman",
+				"yamlls",
+				"taplo",
+				"jsonls",
 				"jsonnet_ls",
 			},
 		})

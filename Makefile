@@ -26,7 +26,7 @@ packages: ## Install tools and dependencies only
 
 link: ## Stow all config symlinks into $HOME
 	@for pkg in $(PACKAGES); do \
-		stow $(STOW_FLAGS) --adopt --restow $$pkg && \
+		stow $(STOW_FLAGS) --no-folding --adopt --restow $$pkg && \
 		printf "  \033[32m✓\033[0m $$pkg\n"; \
 	done
 	@git -C $(DOTFILES_DIR) checkout -- . 2>/dev/null || true

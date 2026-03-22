@@ -1,20 +1,21 @@
 return {
 	"zbirenbaum/copilot.lua",
 	cmd = "Copilot",
-	build = ":Copilot auth", -- run this after install to log in
+	event = "InsertEnter",
+	build = ":Copilot auth",
 	config = function()
 		require("copilot").setup({
 			suggestion = {
 				enabled = true,
-				auto_trigger = true, -- show inline suggestions as you type
+				auto_trigger = true,
 				keymap = {
-					accept = "<Tab>", -- accept suggestion
-					next = "<M-]>", -- cycle next suggestion
-					prev = "<M-[>", -- cycle previous suggestion
+					accept = "<Tab>",
+					next = "<M-]>",
+					prev = "<M-[>",
 					dismiss = "<C-]>",
 				},
 			},
-			panel = { enabled = false }, -- disable the side panel (keep it VSCode-like inline)
+			panel = { enabled = false },
 		})
 	end,
 }
