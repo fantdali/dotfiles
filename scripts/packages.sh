@@ -45,6 +45,7 @@ BREW_PACKAGES=(
     neovim
     tmux
     fzf
+    worktrunk
     fd
     bat
     eza
@@ -57,6 +58,7 @@ BREW_PACKAGES=(
     wget
     jq
     tree
+    tree-sitter-cli
     go
     node
     python3
@@ -81,6 +83,7 @@ APT_PACKAGES=(
 BREW_ONLY_PACKAGES=(
     neovim
     fzf
+    worktrunk
     fd
     bat
     eza
@@ -88,6 +91,7 @@ BREW_ONLY_PACKAGES=(
     thefuck
     lazygit
     ripgrep
+    tree-sitter-cli
     go
     node
 )
@@ -196,6 +200,11 @@ install_oh_my_zsh() {
     if [[ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]]; then
         info "Installing zsh-syntax-highlighting..."
         git clone https://github.com/zsh-users/zsh-syntax-highlighting "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
+    fi
+
+    if [[ ! -d "$ZSH_CUSTOM/plugins/fzf-tab" ]]; then
+        info "Installing fzf-tab..."
+        git clone https://github.com/Aloxaf/fzf-tab "$ZSH_CUSTOM/plugins/fzf-tab"
     fi
 
     success "oh-my-zsh plugins ready"

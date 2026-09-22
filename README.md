@@ -18,7 +18,7 @@ Personal development environment configs for macOS and Linux.
 
 ### CLI tools installed
 
-fzf, fd, bat, eza, zoxide, thefuck, lazygit, ripgrep, kubectl, kubectx/kubens, Go, Node, Python3
+fzf with fzf-tab, worktrunk (`wt`), fd, bat, eza, zoxide, thefuck, lazygit, ripgrep, kubectl, kubectx/kubens, Go, Node, Python3
 
 ## Quick start
 

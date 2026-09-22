@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research Engineering"
+  short_description: "Evidence-led technical research workflow"
+  default_prompt: "Use $research-engineering to investigate this question and separate evidence from hypotheses."

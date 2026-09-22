@@ -4,7 +4,7 @@ DOTFILES_DIR := $(shell pwd)
 STOW_FLAGS   := -d $(DOTFILES_DIR) -t $(HOME)
 
 # Packages shared across all platforms
-PACKAGES := shell tmux wezterm nvim gitconfig
+PACKAGES := shell tmux wezterm nvim gitconfig worktrunk
 
 # macOS-only packages
 UNAME := $(shell uname -s)

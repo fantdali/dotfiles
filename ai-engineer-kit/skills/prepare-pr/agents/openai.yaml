@@ -1,0 +1,4 @@
+interface:
+  display_name: "Prepare Pull Request"
+  short_description: "Prepare concise, reviewable pull requests"
+  default_prompt: "Use $prepare-pr to make this branch PR-ready and draft the pull request description."

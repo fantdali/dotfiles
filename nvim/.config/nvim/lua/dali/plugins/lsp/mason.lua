@@ -46,7 +46,6 @@ return {
 				"stylua", -- Lua
 				"isort", -- Python
 				"black", -- Python
-				"rustfmt", -- Rust
 				"gofumpt", -- Go
 				"goimports", -- Go
 				"clang-format", -- C/C++

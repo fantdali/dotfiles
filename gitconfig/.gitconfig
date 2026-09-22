@@ -1,8 +1,5 @@
-[includeIf "gitdir:~/wrk/"]
-    path = ~/wrk/.gitconfig
-
-[includeIf "gitdir:~/prsnl/"]
-    path = ~/prsnl/.gitconfig
+[include]
+    path = ~/.gitconfig.local
 
 [init]
 	templatedir = ~/git/templates
@@ -10,3 +7,13 @@
 	autoSetupRemote = true
 [pull]
 	rebase = true
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+[core]
+	pager = delta
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+[merge]
+	conflictStyle = zdiff3

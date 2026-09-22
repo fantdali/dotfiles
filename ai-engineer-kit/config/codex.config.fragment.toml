@@ -1,0 +1,9 @@
+# These optional tables are merged into ~/.codex/config.toml.
+
+[memories]
+generate_memories = true
+use_memories = true
+disable_on_external_context = true
+min_rate_limit_remaining_percent = 20
+
+# Also add `memories = true` to the existing [features] table.

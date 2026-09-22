@@ -1,0 +1,4 @@
+interface:
+  display_name: "Infrastructure Session"
+  short_description: "Investigate or change live systems in a selected mode"
+  default_prompt: "Use $safe-infra-investigation with the target and session mode I provide."

@@ -18,7 +18,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/scripts/utils.sh"
 
 # Stow packages — shared across all platforms
-STOW_PACKAGES=(shell tmux wezterm nvim gitconfig)
+STOW_PACKAGES=(shell tmux wezterm nvim gitconfig worktrunk)
 
 # macOS-only stow packages
 STOW_PACKAGES_MACOS=(yabai skhd)
@@ -128,7 +128,10 @@ full_install() {
 
     echo ""
 
-    # 3. OS-specific setup
+    # 3. Shared AI agent workstyle and skills
+    "$SCRIPT_DIR/ai-engineer-kit/install.sh"
+
+    # 4. OS-specific setup
     if [[ "$OS" == "macos" ]]; then
         source "$SCRIPT_DIR/scripts/macos.sh"
         setup_macos

@@ -1,0 +1,9 @@
+# Keep worktrees beside the source repository and make branch names filesystem-safe.
+worktree-path = "{{ repo_path }}/../{{ repo }}.{{ branch | sanitize }}"
+
+# Never stage unrelated files implicitly. Stage intentionally before `wt step commit`.
+[commit]
+stage = "none"
+
+[list]
+json-schema = 2

@@ -22,7 +22,7 @@ config.font_size = 18
 config.window_padding = {
 	left = "0cell",
 	right = "0cell",
-	top = "0cell",
+	top = "1cell",
 	bottom = "0cell",
 }
 
@@ -37,13 +37,6 @@ end
 config.scrollback_lines = 5000
 
 config.window_close_confirmation = "NeverPrompt"
-
-local mux = wezterm.mux
-
-wezterm.on("gui-startup", function(cmd)
-	local tab, pane, window = mux.spawn_window(cmd or {})
-	window:gui_window():maximize() -- Maximizes the window on startup
-end)
 
 local act = wezterm.action
 local is_mac = wezterm.target_triple:find("darwin") ~= nil
